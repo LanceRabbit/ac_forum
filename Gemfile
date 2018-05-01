@@ -35,6 +35,15 @@ gem 'jbuilder', '~> 2.5'
 
 # 註冊登入
 gem 'devise'
+# 分頁
+gem 'kaminari'
+# 畫面套版
+gem 'bootstrap', '~> 4.1.0'
+gem 'jquery-rails'
+# 上傳
+gem 'carrierwave'
+# 測試資料
+gem 'ffaker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
