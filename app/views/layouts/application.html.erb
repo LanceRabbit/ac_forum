@@ -2,18 +2,24 @@
 <html>
   <head>
     <title>AcForum</title>
+    <!-- viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+        <!-- navbar ; NEED TO setup color: navbar-light bg-light -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <%= link_to "Forum", root_path, class: "navbar-brand" %>
+      <%= link_to "AcForum", root_path, class: "navbar-brand" %>
+      <!-- navbar brand and toggle //start -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <!-- navbar brand and toggle //end -->
+
+      <!-- nav links and toggle //start -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -27,7 +33,7 @@
           <% if current_user %>
             <% if current_user.admin? %>
               <li class="nav-item">
-               Admin
+                <%= link_to 'Admin後台', admin_users_path , class: "nav-link" %>
               </li>
             <% end %>
             <li class="nav-item">
@@ -54,29 +60,26 @@
           <% end %>
         </ul>
       </div>
+      <!-- nav links and toggle //end -->
     </nav>
-    <% if notice %>
-      <div class="container-fluid">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Notice!</strong>
-          <%= notice %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+
+    <!-- flash & dismissable notice/alert -->
+    <% if notice.present? %>
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p><%= notice %></p>
+      </div>
+    <% elsif alert.present? %>
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p><%= alert %></p>
       </div>
     <% end %>
-    <% if alert %>
-      <div class="container-fluid">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Alert!</strong>
-          <%= alert %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
-    <% end %>
+    
     <%= yield %>
   </body>
 </html>
