@@ -4,6 +4,12 @@ class Admin::UsersController < Admin::BaseController
 
   def index
     @users = User.all
+
+    if params[:id]
+      set_user
+    else
+      @category = Category.new
+    end
   end
 
   def update

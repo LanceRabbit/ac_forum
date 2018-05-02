@@ -1,14 +1,10 @@
 <div class="navtab my-3">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <%= link_to_unless_current "User List", admin_users_path, class: "nav-link" do %>
-        <%= link_to "User List", admin_users_path, class: "nav-link active" %>
-      <% end %>
+        <%= link_to "User List", admin_users_path, class: show_navtabs('users') %>
     </li>
-    <li class="nav-item">
-      <%= link_to_unless_current "Category List", admin_categories_path, class: "nav-link" do %>
-        <%= link_to "Category List", admin_categories_path, class: "nav-link active" %>
-      <% end %>
+    <li class="nav-item"> 
+        <%= link_to "Category List", admin_categories_path, class: show_navtabs('categories') %>
     </li>
   </ul>
 </div>

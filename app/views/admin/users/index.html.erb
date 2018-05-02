@@ -16,7 +16,14 @@
           <tr>
             <td data-link="<%= user_path(user) %>"><%= user.name %></td>
             <td data-link="<%= user_path(user) %>"><%= user.email %></td>
-            <td data-link="<%= user_path(user) %>"><%= user.role %></td>
+            <td>
+              <%= form_for [:admin, user] do |f| %>
+                <p>
+                  <%= f.select :role, User::ROLE %>
+                  <%= f.submit class: "btn btn-primary" %>
+                </p>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

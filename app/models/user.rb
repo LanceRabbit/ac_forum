@@ -7,6 +7,10 @@ class User < ApplicationRecord
   # 發表文章
   has_many :posts, dependent: :destroy
 
+  ROLE = { 
+       'normal': 'normal',
+       'admin': 'admin'
+      } 
 
   def admin?
     self.role == "admin"
