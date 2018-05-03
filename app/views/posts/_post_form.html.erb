@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 mt-4">
+      <%= form_for @post do |f| %>
+        <div class="form-group">
+          <%= f.text_field :title, placeholder: "Title", class: "form-control bg-light" %>
+        </div>
+        <div class="form-group">
+          <%= f.text_area :content, placeholder: "Content",class: "form-control bg-light" %>
+        </div>
+        <div class="form-group">
+        
+          <%= f.file_field :image %>
+        </div>
+        <div class="form-group">
+          <div class="form-check form-check-inline">  
+             <%= f.label "Category:", class: "label" %> 
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.collection_check_boxes :category_ids, Category.all, :id, :name, {}, {multiple: true, class: "form-check-input"} do |cb| %>
+              <%= cb.label(class: "form-check-label mr-2") { cb.check_box(class: "form-check-input") + cb.text } %>
+            <% end %>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-check form-check-inline">  
+             <%= f.submit class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

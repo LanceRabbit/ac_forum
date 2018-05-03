@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1><%= @post.title %></h1>
+
+    </div>
+
+    <div class="col-md-12">
+     <!-- <%= image_tag @post.image, class: "img-responsive center-block" %> -->
+      <%= image_tag @post.image, class: "img-responsive center-block" if @post.image?%>
+      <%= image_tag "http://via.placeholder.com/380x130", class: "img-responsive center-block img-rounded"  unless @post.image?%> 
+      <br>
+    </div>
+    <div class="col-md-12">
+      <%= simple_format @post.content %>
+      <hr>
+
+    </div>
+     <%= link_to 'Edit', edit_post_path(@post) %>
+    <div class="clearfix"></div>
+
+    <hr>
+
+  </div>
+</div>
