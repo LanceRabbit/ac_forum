@@ -9,6 +9,10 @@ class Post < ApplicationRecord
   has_many :post_categories
   has_many :categories, through: :post_categories
   
-
+  LEVEL = { 
+       '1': 'All',
+       '2': 'Friend',
+       '3': 'Private'
+      } 
 
 end

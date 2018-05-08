@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  # except 排除首頁檢核使用者登入
   before_action :authenticate_user!, except: :index
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
@@ -16,14 +17,19 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-   
+    if published?
+      @post.published = true
+    else
+      @post.published = false
+    end
+ 
     if @post.save
+       flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully created"
       redirect_to root_path
     else
       flash.now[:alert] = @post.errors.full_messages.to_sentence
       render :new
     end
-   
   end
 
   def edit
@@ -31,9 +37,15 @@ class PostsController < ApplicationController
   end
 
   def update
+    if published?
+      @post.published = true
+    else
+      @post.published = false
+    end
+
     if @post.update(post_params)
       redirect_to root_path
-      flash[:notice] = "post was successfully updated"
+      flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully updated"
     else
       render :edit
       flash[:alert] = "post was failed to update"
@@ -43,7 +55,11 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :image,  category_ids: [])
+    params.require(:post).permit(:title, :content, :image, :level, category_ids: [])
+  end
+
+  def published?
+    params[:commit] == 'Submit'
   end
 
   def set_post
