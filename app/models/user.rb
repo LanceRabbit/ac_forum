@@ -6,7 +6,9 @@ class User < ApplicationRecord
 
   # 發表文章
   has_many :posts, dependent: :destroy
-
+  # 回覆文章
+  has_many :replies, dependent: :destroy
+  
   ROLE = { 
        'normal': 'normal',
        'admin': 'admin'

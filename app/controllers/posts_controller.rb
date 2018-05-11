@@ -33,7 +33,7 @@ class PostsController < ApplicationController
   end
   
   def show 
-    @replies = @post.replies.page(params[:page]).per(9)
+    @replies = @post.replies.page(params[:page]).per(20)
     @reply = Reply.new
   end
   def edit
@@ -55,6 +55,13 @@ class PostsController < ApplicationController
       flash[:alert] = "post was failed to update"
     end
   end
+
+  def destroy
+    @post.destroy
+    redirect_to root_path
+    flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully destroied"
+  end
+
 
   private
 

@@ -1,0 +1,6 @@
+// 文字超出時,強制轉行 
+.comment {
+  p {
+    word-wrap: break-word;
+  }
+}

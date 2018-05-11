@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   
   # 前台
   resources :posts do
-    resources :replies, only: [:create, :index, :show]
+    resources :replies, only: [:create, :update, :destroy, :edit]
   end
 
   resources :users
