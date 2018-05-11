@@ -31,7 +31,11 @@ class PostsController < ApplicationController
       render :new
     end
   end
-
+  
+  def show 
+    @replies = @post.replies.page(params[:page]).per(9)
+    @reply = Reply.new
+  end
   def edit
     # before_action
   end

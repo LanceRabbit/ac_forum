@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
   
   # 前台
-  resources :posts, :users
+  resources :posts do
+    resources :replies, only: [:create, :index, :show]
+  end
+
+  resources :users
 
   root "posts#index"
 
