@@ -21,5 +21,6 @@ Rails.application.routes.draw do
     root "users#index"
   end
 
+  # 不存在的路徑都導向首頁
   get '*path', to: 'posts#index'
 end

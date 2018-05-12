@@ -26,7 +26,7 @@
     <table class="table table-hover text-center bg-light">
       <tbody>
         <% @posts.each do |post| %>
-          <tr>
+          <tr data-link="<%= post_path(post) %> ">
             <td data-link="<%= post_path(post) %>"><%= post.title %></td>
             <td data-link="<%= post_path(post) %>">Published</td>
             <td data-link="<%= post_path(post) %>"><%= post.updated_at.strftime("%Y-%m-%d") %></td>
@@ -43,3 +43,8 @@
     <% end %>
   </div>
 </div>
+<script>
+  $("tr[data-link]").click(function() {
+    window.location = $(this).data("link")
+  })
+</script>
