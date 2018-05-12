@@ -1,14 +1,38 @@
+<div class="container-fluid">
+  <div class="row border-bottom bg-light pt-2">
+   <h1>AcForum</h1>
+  </div>
+</div>
+<br>
 <div class="container">
-  <div class="row">
+  <div class ="row pb-3">
+  <ul class="nav nav-pills">
+    <li class="nav-item ">
+      <%if @category %>
+        <%= link_to "All", posts_path , class:"nav-link"%>
+      <%else%>
+        <%= link_to "All", posts_path , class:"nav-link active"%>
+      <%end%>
+    </li>   
+    <% @categories.each do |category| %>
+      <li class="nav-item">
+        <% if @category== category%>
+          <%= link_to category.name, posts_path(category_id: category.id),class:"nav-link active"%>
+        <% else %>
+          <%= link_to category.name, posts_path(category_id: category.id),class:"nav-link"%>
+        <%end%>
+      </li>
+    <%end%>
+  </ul>
   </div>
   <div class="row">
     <table class="table table-hover">
       <thead class="thead-dark">
         <tr>
-          <th>Replied Count</th>
+          <th><%= sort_link(@ransack, :replies_count, "Replied count", default_order: :desc) %></th>
           <th>Title</th>
-          <th>Last Replied</th>
-          <th>Viewed Count</th>
+          <th><%= sort_link(@ransack, :last_replied, "Last replied at", default_order: :desc) %></th>
+          <th><%= sort_link(@ransack, :views_count, "Viewed count", default_order: :desc) %></th>
         </tr>
       </thead>
       <tbody>
@@ -23,14 +47,18 @@
         <% end %>
         <% @posts.each do |post| %>
           <tr data-link="<%= post_path(post) %>">
-            <td>Replied</td>
+            <td><%= post.replies.count %></td>
             <td><%= post.title %></td>
-            <td>Last</td>
-            <td>Viewed</td>
+            <td><%= post.last_replied %></td>
+            <td><%= post.views_count %></td>
           </tr>
         <% end %>
       </tbody>
+
     </table>
+  <div class="mx-auto mt-3">
+    <%=paginate @posts, theme: 'twitter-bootstrap-4' %>
+  </div>
   </div>
 </div>
 <script>

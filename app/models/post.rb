@@ -17,4 +17,10 @@ class Post < ApplicationRecord
        '3': 'Private'
       } 
 
+
+  scope :published, -> { where(published: true) }
+
+  scope :published, ->(level) { where("published = ? and level <=  ?",true, level) }  
+
+
 end

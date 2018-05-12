@@ -1,69 +1,59 @@
-<div class="row border-bottom bg-light pt-2">
-  <div class="col-sm-9">
-    <h3 class="m-2">
-      <strong><%= @post.title %></strong>
-    </h3>
-  </div>
-  <div class="col-sm-2 offset-sm-1">
-     <a href="#reply" class="btn btn-md btn-primary m-1 pull-right">Comment</a>
-      <%= link_to 'Edit', edit_post_path(@post),class: "btn btn-primary btn-xs m-1" %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-2 border">
-    <div class="m-3">
-      <%= image_tag @post.user.avatar, width: "100%", class: "img-responsive center-block" if @post.user.avatar?%>
-      <%= image_tag "http://via.placeholder.com/150x130", width: "100%", class: "img-responsive center-block img-rounded"  unless @post.user.avatar?%> 
-      <p><%= @post.user.name %></p> 
+<div class="container-fluid">
+  <div class="row border-bottom bg-light pt-2">
+    <div class="col-sm-9">
+      <h3 class="m-2">
+        <strong><%= @post.title %></strong>
+      </h3>
+    </div>
+    <div class="col-sm-2 offset-sm-1">
+      <a href="#reply" class="btn btn-md btn-primary m-1 pull-right">Reply</a>
+        <%= link_to 'Edit', edit_post_path(@post),class: "btn btn-primary btn-xs m-1" %>
     </div>
   </div>
-  <div class="col-sm-10 border">
-    <div  class="m-3" > 
-      <%= image_tag @post.image, width: "100%", class: "img-responsive center-block" if @post.image?%>
-      <%= image_tag "http://via.placeholder.com/380x130", width: "100%", class: "img-responsive center-block img-rounded"  unless @post.image?%> 
-      <p><%= simple_format @post.content %></p> 
-    </div>
-    <div class="col-sm-2 offset-sm-10">
-      <%= link_to 'U', edit_post_path(@post), :class => "btn btn-primary m-1"  %>
-      <%= link_to 'X', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
-    </div>
-  </div>
-</div>
-<div class="row bg-light">
-  <% @replies.each do |reply| %>
-    <div class="col-sm-2 border">
-      <div class="m-3">
-        <%= image_tag reply.user.avatar, width: "100%", class: "img-responsive center-block" if reply.user.avatar?%>
-        <%= image_tag "http://via.placeholder.com/150x130", width: "100%", class: "img-responsive center-block img-rounded"  unless reply.user.avatar?%> 
-        <p><%= reply.user.name %></p> 
-      </div>
-    </div>
+  <div class="row">
+    <%= render partial: "user_info", locals:{ user: @post.user } %>
     <div class="col-sm-10 border">
-      <div class="w-100" > 
-        <div class="comment">
-          <p><%= simple_format reply.comment %></p> 
-        </div>
+      <div  class="m-3" > 
+        <%= image_tag @post.image, width: "100%", class: "img-responsive center-block" if @post.image?%>
+        <%= image_tag "http://via.placeholder.com/380x130", width: "100%", class: "img-responsive center-block img-rounded"  unless @post.image?%> 
+        <p><%= simple_format @post.content %></p> 
       </div>
       <div class="col-sm-2 offset-sm-10">
-        <%= link_to 'U', edit_post_reply_path(@post, reply), :class => "btn btn-primary m-1"  %>
-        <%= link_to 'X', post_reply_path(@post, reply), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
+        <%= link_to 'U', edit_post_path(@post), :class => "btn btn-primary m-1"  %>
+        <%= link_to 'X', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
       </div>
     </div>
-  <% end %>
-  <div class="mx-auto mt-3">
-    <%= paginate @replies %>
   </div>
-</div>
-<div class="row border" id="reply">
-  <div class="col-sm-12  m-3">
-    <%= form_for [@post, @reply] do |f| %>
-      <div class="form-group">
-        <%= f.text_area :comment, placeholder: "留個言吧！", class: "form-control mt-4 bg-light" %>
-      </div>
-      <div class="form-group">
-        <%= f.submit class: "btn btn-primary btn-xs" %>
-        <%= f.button "取消", type: :reset, class: "btn btn-danger btn-xs" %>
+  <div class="row bg-light">
+    <% @replies.each do |reply| %>
+      <%= render partial: "user_info", locals:{ user: reply.user } %>
+      <div class="col-sm-10 border">
+        <div class="w-100" > 
+          <div class="comment">
+            <p><%= simple_format reply.comment %></p> 
+          </div>
+        </div>
+        <div class="col-sm-2 offset-sm-10">
+          <%= link_to 'U', edit_post_reply_path(@post, reply), :class => "btn btn-primary m-1"  %>
+          <%= link_to 'X', post_reply_path(@post, reply), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
+        </div>
       </div>
     <% end %>
+    <div class="mx-auto mt-3">
+      <%= paginate @replies, theme: 'twitter-bootstrap-4'  %>
+    </div>
+  </div>
+  <div class="row border" id="reply">
+    <div class="col-sm-12  m-3">
+      <%= form_for [@post, @reply] do |f| %>
+        <div class="form-group">
+          <%= f.text_area :comment, placeholder: "留個言吧！", class: "form-control mt-4 bg-light" %>
+        </div>
+        <div class="form-group">
+          <%= f.submit class: "btn btn-primary btn-xs" %>
+          <%= f.button "取消", type: :reset, class: "btn btn-danger btn-xs" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

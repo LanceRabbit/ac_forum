@@ -4,7 +4,17 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.all
+    @categories = Category.all
+    # @posts = Post.published.where('level <= ?', 2).page(params[:page]).per(20)
+    # 包含到 all/friend可看到的文章
+    if params[:category_id]
+      @category = Category.find(params[:category_id])
+      @ransack = @category.posts.published(2).ransack(params[:q])
+    else
+      @ransack = Post.published(2).ransack(params[:q])
+    end 
+
+    @posts = @ransack.result(distinct: true).page(params[:page]).per(20)
   end
 
   def new
@@ -24,7 +34,7 @@ class PostsController < ApplicationController
     end
  
     if @post.save
-       flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully created"
+      flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully created"
       redirect_to root_path
     else
       flash.now[:alert] = @post.errors.full_messages.to_sentence
@@ -35,6 +45,8 @@ class PostsController < ApplicationController
   def show 
     @replies = @post.replies.page(params[:page]).per(20)
     @reply = Reply.new
+    @post.views_count +=1
+    @post.save! 
   end
   def edit
     # before_action
@@ -48,7 +60,7 @@ class PostsController < ApplicationController
     end
 
     if @post.update(post_params)
-      redirect_to root_path
+      redirect_to post_path
       flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully updated"
     else
       render :edit
