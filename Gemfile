@@ -40,10 +40,14 @@ gem 'kaminari'
 # 畫面套版
 gem 'bootstrap', '~> 4.1.0'
 gem 'jquery-rails'
+# for kaminari 頁籤樣式
+gem 'bootstrap4-kaminari-views'
 # 上傳
 gem 'carrierwave'
 # 測試資料
 gem 'ffaker'
+# 分類查詢
+gem 'ransack'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
