@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :replies, only: [:create, :update, :destroy, :edit]
   end
 
-  resources :users
+  resources :users, only: [:show, :update, :edit]
 
   root "posts#index"
 
@@ -20,5 +20,6 @@ Rails.application.routes.draw do
     resources :users, :categories 
     root "users#index"
   end
-  
+
+  get '*path', to: 'posts#index'
 end

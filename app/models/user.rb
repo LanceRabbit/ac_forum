@@ -9,6 +9,11 @@ class User < ApplicationRecord
   # 回覆文章
   has_many :replies, dependent: :destroy
   
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
+  #透過Friendship的foreign_key取得追隨者的資料
+  has_many :self_friends, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
+  
   ROLE = { 
        'normal': 'normal',
        'admin': 'admin'
