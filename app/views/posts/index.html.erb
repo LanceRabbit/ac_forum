@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row border-bottom bg-light pt-2">
-   <h1>AcForum</h1>
+   <h1 class="pl-2">AcForum</h1>
   </div>
 </div>
 <br>
@@ -49,7 +49,7 @@
           <tr data-link="<%= post_path(post) %>">
             <td><%= post.replies.count %></td>
             <td><%= post.title %></td>
-            <td><%= post.last_replied %></td>
+            <td><%= post.last_replied.strftime("%Y-%m-%d")%></td>
             <td><%= post.views_count %></td>
           </tr>
         <% end %>
