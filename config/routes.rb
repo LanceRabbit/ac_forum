@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     post :accept, :on => :member
   end
 
+  resources :feeds, only: [:index]
+
   root "posts#index"
 
   # 後台
