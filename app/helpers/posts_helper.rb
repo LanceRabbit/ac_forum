@@ -1,17 +1,4 @@
 module PostsHelper
-
-  def show_edit(type, object)
-   
-    if object.user == current_user 
-      return true
-    elsif type == 'Post' && current_user.admin?
-      return true
-    else
-      return false
-    end
-
-
-  end
   
   def collect_btn(post)
     if post.is_collected?(current_user)

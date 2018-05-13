@@ -11,7 +11,7 @@
         </div>
         <div class="col-sm-9 comment">
           <p><%= @user.description %></p>
-          <% if @user == current_user %>
+          <% if show_edit("User", @user) %>
             <div class="d-flex offset-sm-10">
               <%= link_to "Edit", edit_user_path(@user), class: "btn btn-primary" %>
             </div>
@@ -30,15 +30,17 @@
             <td data-link="<%= post_path(post) %>"><%= post.title %></td>
             <td data-link="<%= post_path(post) %>">Published</td>
             <td data-link="<%= post_path(post) %>"><%= post.updated_at.strftime("%Y-%m-%d") %></td>
-            <td>
-             <%= link_to 'U', edit_post_path(post), :class => "btn btn-primary m-1"  %>
-             <%= link_to 'X', post_path(post), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
-            </td>
+            <% if show_edit("User", @user) %>
+              <td>
+                <%= link_to 'U', edit_post_path(post), :class => "btn btn-primary m-1"  %>
+                <%= link_to 'X', post_path(post), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>
     </table>
-    <% if @user == current_user %>
+    <% if show_edit("User", @user) %>
       <%= link_to "New Post", new_post_path, class: "btn btn-primary" %>
     <% end %>
   </div>

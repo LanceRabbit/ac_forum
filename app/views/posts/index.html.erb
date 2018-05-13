@@ -49,7 +49,7 @@
           <tr data-link="<%= post_path(post) %>">
             <td><%= post.replies.count %></td>
             <td><%= post.title %></td>
-            <td><%= post.last_replied.strftime("%Y-%m-%d")%></td>
+            <td><%= post.last_replied.strftime("%Y-%m-%d %H:%M:%S")%></td>
             <td><%= post.views_count %></td>
           </tr>
         <% end %>
