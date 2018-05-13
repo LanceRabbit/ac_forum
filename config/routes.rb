@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       post "/login" => "auth#login"
       post "/logout" => "auth#logout"
 
+      resources :posts, only:[:index, :show, :create, :update, :destroy]
     end
   end
 
