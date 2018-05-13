@@ -64,7 +64,7 @@ namespace :dev do
 
   # reply
   task fake_reply: :environment do
-    #Reply.destroy_all
+    Reply.destroy_all
     puts " create fake reply data ..."
     Post.all.sample(30).each do |post|
       3.times do |i|

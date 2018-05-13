@@ -5,6 +5,9 @@ class RepliesController < ApplicationController
     @reply = @post.replies.build(reply_params)
     @reply.user = current_user
     if @reply.save
+      @post.last_replied = @reply.updated_at
+      @post.save!
+      flash[:notice] = "reply was successfully created"
       redirect_to post_path(@post)
     else
       flash[:alert] = @reply.errors.full_messages.to_sentence
@@ -18,16 +21,19 @@ class RepliesController < ApplicationController
 
   def update 
     if @reply.update(reply_params)
+      @post.last_replied = @reply.updated_at
+      @post.save!
       redirect_to post_path(@post)
-      flash[:notice] = "restaurant was successfully updated"
+      flash[:notice] = "reply was successfully updated"
     else
       render :edit
-      flash[:alert] = "restaurant was failed to update"
+      flash[:alert] = "reply was failed to update"
     end
   end
 
   def destroy 
     @reply.destroy
+    flash[:notice] = "reply was successfully deleted"
     redirect_to post_path(@post)
   end
 

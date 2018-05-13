@@ -18,23 +18,28 @@ class FriendshipsController < ApplicationController
   def destroy
       if is_cancel?
         @friendship = current_user.friendships.find_by(user_id: current_user, friend_id: params[:friend_id])
+        @friendship.destroy
       elsif is_ingore?
         @friendship = Friendship.find_by(user_id: params[:friend_id] , friend_id: current_user)
+        @friendship.destroy
       else
         @friendship = current_user.friendships.find_by(user_id: current_user, friend_id: params[:friend_id])
+        @friendship.destroy
+        @friendship = Friendship.find_by(user_id: params[:friend_id], friend_id: current_user)
+        @friendship.destroy
       end
-      @friendship.destroy
+      # @friendship.destroy
       flash[:norice] = "friendship destroyed"
       redirect_back(fallback_location: :back)
   end
-
+ 
   def accept
     @friendship = Friendship.find_by(user_id: params[:friend_id] , friend_id: current_user)
     @friendship.status = true
     @friendship.save!
     current_user.friendships.create!(friend_id: params[:friend_id], status: true)
 
-    flash[:alert] = "accept the friendship"
+    flash[:norice] = "accept the friendship"
     redirect_back(fallback_location: root_path)
   end
 
