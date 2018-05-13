@@ -16,6 +16,11 @@ class Post < ApplicationRecord
   # post 被很多user收藏
   has_many :collected_users, through: :collections, source: :user
   
+  All = 1
+  Friend = 2
+  Private = 3
+
+
   LEVEL = { 
        '1': 'All',
        '2': 'Friend',
@@ -34,4 +39,7 @@ class Post < ApplicationRecord
     self.collected_users.include?(user)
   end
 
+  def published?
+     self.published ? false : true
+  end
 end

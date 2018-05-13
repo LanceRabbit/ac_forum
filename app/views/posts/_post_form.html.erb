@@ -36,7 +36,9 @@
             Status:
           </div>
           <div class="form-group"> 
-            <%= f.submit "Save Draft" , class: "btn btn-primary" %> 
+            <% if @post.published?%>
+              <%= f.submit "Save Draft" , class: "btn btn-primary" %> 
+            <% end %>
             <%= f.submit "Submit" , class: "btn btn-primary" %>
           </div>
         </div>

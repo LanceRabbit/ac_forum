@@ -10,6 +10,7 @@
 </div>
 <script>
   $("tr[data-link]").click(function() {
+    event.stopPropagation();
     window.location = $(this).data("link")
   })
 </script>

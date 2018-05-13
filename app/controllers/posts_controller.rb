@@ -7,13 +7,21 @@ class PostsController < ApplicationController
     @categories = Category.all
     # @posts = Post.published.where('level <= ?', 2).page(params[:page]).per(20)
     # 包含到 all/friend可看到的文章
-    if params[:category_id]
-      @category = Category.find(params[:category_id])
-      @ransack = @category.posts.published(2).ransack(params[:q])
+    if current_user
+      if params[:category_id]
+        @category = Category.find(params[:category_id])
+        @ransack = @category.posts.published(Post::Private).ransack(params[:q])
+      else
+        @ransack = Post.published(Post::Private).ransack(params[:q])
+      end
     else
-      @ransack = Post.published(2).ransack(params[:q])
-    end 
-
+      if params[:category_id]
+        @category = Category.find(params[:category_id])
+        @ransack = @category.posts.published(Post::All).ransack(params[:q])
+      else
+        @ransack = Post.published(Post::All).ransack(params[:q])
+      end
+    end
     @posts = @ransack.result(distinct: true).page(params[:page]).per(20)
   end
 
@@ -43,10 +51,19 @@ class PostsController < ApplicationController
   end
   
   def show 
-    @replies = @post.replies.page(params[:page]).per(20)
-    @reply = Reply.new
-    @post.views_count +=1
-    @post.save! 
+    if @post.level == Post::All ||
+       @post.user == current_user || 
+       current_user.admin? ||
+       @post.user.is_friend?(current_user)
+
+      @replies = @post.replies.page(params[:page]).per(20)
+      @reply = Reply.new
+      @post.views_count +=1
+      @post.save! 
+    else
+      flash[:alert] = "權限不足"
+      redirect_to root_path
+    end
   end
   def edit
     # before_action
