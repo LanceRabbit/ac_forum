@@ -26,6 +26,16 @@ Rails.application.routes.draw do
   resources :feeds, only: [:index]
 
   root "posts#index"
+  
+  #api
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+
+      post "/login" => "auth#login"
+      post "/logout" => "auth#logout"
+
+    end
+  end
 
   # 後台
   # url path for admin 
