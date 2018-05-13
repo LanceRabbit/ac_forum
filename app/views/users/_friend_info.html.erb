@@ -1,0 +1,13 @@
+<div class="user-item text-center mt-3 mb-3">
+  <%= link_to user_path(user), class: "nav-link" do %>
+    <div class="avatar">
+      <%= image_tag user.avatar, width: "100%", class: "img-responsive center-block" if user.avatar?%>
+      <%= image_tag "http://via.placeholder.com/100x100", width: "100%", class: "img-responsive center-block img-rounded"  unless user.avatar?%> 
+    </div>
+    <p><strong><%= user.name %></strong></p>
+  <% end %>
+
+  <div class="links" id="user-<%= user.id %>">
+    <%= friend_button(user) %>
+  </div>
+</div>

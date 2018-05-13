@@ -1,0 +1,20 @@
+<%= render partial: "user_info", locals: { user: @user } %>
+<div class="container">
+  <div class="row">
+    <%= render partial: "navtab", locals: { user: @user } %>
+    <table class="table table-hover text-center bg-light">
+      <tbody>
+        <% @replies.each do |reply| %>
+          <tr data-link="<%= post_path(reply.post) %> ">
+            <td><%= reply.comment %> </td>
+            <% if show_edit("Reply", reply) %>
+              <td>
+                <%= link_to 'U', edit_post_reply_path(reply.post, reply), :class => "btn btn-primary m-1"  %>
+                <%= link_to 'X', post_reply_path(reply.post, reply), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
+             </td>
+           <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+  </div>
+</div>

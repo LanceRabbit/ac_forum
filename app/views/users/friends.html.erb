@@ -1,0 +1,42 @@
+<%= render partial: "user_info", locals: { user: @user } %>
+<div class="container">
+  <div class="row">
+    <%= render partial: "navtab", locals: { user: @user } %>
+    <div class="container border bg-light">
+      <h5 class="text-center">
+        待確認
+      </h5>
+      <div class="row" id="friend">
+        <% @invitee_friends.each do |friend| %>
+          <div class="col-sm-2" id="user-<%= friend.id %>">
+            <%= render partial: "friend_info", locals: { user: friend } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="container border bg-light">
+      <h5 class="text-center">
+        朋友邀請
+      </h5>
+      <div class="row" id="friend">
+        <% @inviter_friends.each do |friend| %>
+          <div class="col-sm-2" id="user-<%= friend.id %>">
+            <%= render partial: "friend_info", locals: { user: friend } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="container border bg-light">
+      <h5 class="text-center">
+        好友清單
+      </h5>
+      <div class="row" id="friend">
+        <% @friends.each do |friend| %>
+          <div class="col-sm-2" id="user-<%= friend.id %>">
+            <%= render partial: "friend_info", locals: { user: friend } %>
+          </div>
+        <% end %>
+      </div>
+    </div>        
+  </div>
+</div>

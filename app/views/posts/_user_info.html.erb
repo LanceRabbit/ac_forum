@@ -6,16 +6,7 @@
       <p><%= user.name %></p> 
     <% end %>
 
-    <% if current_user.is_friend?(user) %>
-    <%= link_to 'UnFriend', friendship_path(friend_id: user, type: "Delete"), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-danger m-1' %>
-    <% elsif current_user.invitee_friend?(user) %>  
-      <%= link_to 'Cancel', friendship_path(friend_id: user, type: "Cancel"), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-danger m-1' %>
-   <% elsif current_user.inviter_friend?(user) %> 
-      <%= link_to 'Accept', accept_friendship_path(friend_id: user), method: :post, class: 'btn btn-success m-1' %>
-      <%= link_to 'Ingore', friendship_path(friend_id: user, type: "Ingore"), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-danger m-1' %>
-    <% elsif user != current_user  %> 
-      <%= link_to 'Friend', friendships_path(friend_id: user), method: :post, class: 'btn btn-primary' %>
-    <% end %>
+    <%= friend_button(user) %>
 
   </div>
 </div>

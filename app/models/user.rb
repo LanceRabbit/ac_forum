@@ -17,13 +17,6 @@ class User < ApplicationRecord
   has_many :collected_posts, through: :collections, source: :post
 
   has_many :friendships, dependent: :destroy
-  # 透過friendships中的friend取得資料
-  #has_many :friends, through: :friendships
-  # 透過Friendship的foreign_key取得追隨者的資料
-  #has_many :friendships_inviter, class_name: "Friendship", through: :friendships, foreign_key: 'user_id'
-  #has_many :friendships_invitee, class_name: "Friendship", through: :friendships, foreign_key: 'friend_id'
-  # has_many :confirmed_friendships, -> {where status: true}, class_name: "Friendship"
-  
   has_many :friendships_invitees, class_name:'User', through: :friendships
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_many :friendships_inviters, class_name:'User', through: :inverse_friendships
@@ -43,7 +36,15 @@ class User < ApplicationRecord
   end
 
   def friends
-    self.friendships_invitees.where('friendships.status = ? ',true)
+    self.friendships_invitees.where('status = ? ',true)
+  end
+
+  def invitee_friends
+    self.friendships_invitees.where('status = ? ',false)
+  end
+
+  def inviter_friends
+    self.friendships_inviters.where('status = ? ',false)
   end
 
   def is_friend?(user)

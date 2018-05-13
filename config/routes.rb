@@ -11,7 +11,13 @@ Rails.application.routes.draw do
     post :uncollect, :on => :member
   end
 
-  resources :users, only: [:show, :update, :edit ]
+  resources :users, only: [:show, :update, :edit ] do
+      get :replies, :on => :member
+      get :collections, :on => :member
+      get :drafts, :on => :member
+      get :friends, :on => :member
+  
+  end
 
   resources :friendships, only: [:create, :destroy] do
     post :accept, :on => :member

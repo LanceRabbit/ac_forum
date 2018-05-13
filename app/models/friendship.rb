@@ -3,12 +3,7 @@ class Friendship < ApplicationRecord
   validates :friend_id, uniqueness: { scope: :user_id }
 
   belongs_to :user
-  # 預設的外部鍵: friend_id
-  belongs_to :friend, class_name: "User" 
-
   belongs_to :friendships_inviter, class_name:'User', foreign_key:'user_id'
   belongs_to :friendships_invitee, class_name:'User', foreign_key:'friend_id'
-
-
 
 end

@@ -19,7 +19,7 @@ class FriendshipsController < ApplicationController
       if is_cancel?
         @friendship = current_user.friendships.find_by(user_id: current_user, friend_id: params[:friend_id])
       elsif is_ingore?
-        @friendship = current_user.friendships.find_by(user_id: current_user, friend_id: params[:friend_id])
+        @friendship = Friendship.find_by(user_id: params[:friend_id] , friend_id: current_user)
       else
         @friendship = current_user.friendships.find_by(user_id: current_user, friend_id: params[:friend_id])
       end

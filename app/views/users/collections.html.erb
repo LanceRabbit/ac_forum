@@ -1,0 +1,16 @@
+<%= render partial: "user_info", locals: { user: @user } %>
+<div class="container">
+  <div class="row">
+    <%= render partial: "navtab", locals: { user: @user } %>
+    <table class="table table-hover text-center bg-light">
+      <tbody>
+        <% @collections.each do |collection| %>
+          <tr data-link="<%= post_path(collection.post) %> ">
+            <td><%= collection.post.title %></td>
+            <td><%= collect_btn(collection.post) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

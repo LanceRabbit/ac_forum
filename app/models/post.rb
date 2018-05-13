@@ -23,10 +23,11 @@ class Post < ApplicationRecord
       } 
 
 
-  scope :published, -> { where(published: true) }
+  scope :all_published, -> { where(published: true) }
 
   scope :published, ->(level) { where("published = ? and level <=  ?",true, level) }  
 
+  scope :all_draft, -> { where(published: false) }
 
   # 驗證使用者是否已點選過收藏按鈕
   def is_collected?(user)

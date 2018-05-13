@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <%= render partial: "navtab", locals: { user: @user } %>
-    <%= render partial: "post_list", locals: {type: "Post", posts: @posts } %>
+    <%= render partial: "post_list", locals: {type: "Draft", posts: @posts } %>
     <% if show_edit("User", @user) %>
       <%= link_to "New Post", new_post_path, class: "btn btn-primary" %>
     <% end %>

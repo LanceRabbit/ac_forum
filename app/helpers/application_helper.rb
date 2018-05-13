@@ -3,8 +3,6 @@ module ApplicationHelper
   def show_edit(type, object)
     case type
     when "User"
-      puts current_user.name
-      puts object.name
       if object == current_user 
         return true
       else
@@ -29,4 +27,18 @@ module ApplicationHelper
     end
   end
 
+
+  def friend_button(user)
+    if current_user.is_friend?(user) 
+      return link_to 'UnFriend', friendship_path(friend_id: user, type: "Delete"), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-danger m-1' 
+    elsif current_user.invitee_friend?(user) 
+      return link_to 'Cancel', friendship_path(friend_id: user, type: "Cancel"), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-danger m-1' 
+    elsif current_user.inviter_friend?(user)
+      return (link_to 'Accept', accept_friendship_path(friend_id: user), method: :post, class: 'btn btn-success m-1') +
+      "<br>".html_safe +  (link_to 'Ingore', friendship_path(friend_id: user, type: "Ingore"), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-danger m-1') 
+     elsif user != current_user 
+      return link_to 'Friend', friendships_path(friend_id: user), method: :post, class: 'btn btn-primary' 
+     end 
+  end
+  
 end
