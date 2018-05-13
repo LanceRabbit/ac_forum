@@ -17,15 +17,39 @@ class User < ApplicationRecord
   has_many :collected_posts, through: :collections, source: :post
 
   has_many :friendships, dependent: :destroy
-  has_many :friends, through: :friendships
-  #透過Friendship的foreign_key取得追隨者的資料
-  has_many :self_friends, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
+  # 透過friendships中的friend取得資料
+  #has_many :friends, through: :friendships
+  # 透過Friendship的foreign_key取得追隨者的資料
+  #has_many :friendships_inviter, class_name: "Friendship", through: :friendships, foreign_key: 'user_id'
+  #has_many :friendships_invitee, class_name: "Friendship", through: :friendships, foreign_key: 'friend_id'
+  # has_many :confirmed_friendships, -> {where status: true}, class_name: "Friendship"
   
+  has_many :friendships_invitees, class_name:'User', through: :friendships
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_many :friendships_inviters, class_name:'User', through: :inverse_friendships
+
   ROLE = { 
        'normal': 'normal',
        'admin': 'admin'
       } 
 
+
+  def inviter_friend?(user)
+    self.friendships_inviters.include?(user)
+  end
+
+  def invitee_friend?(user)
+    self.friendships_invitees.include?(user)
+  end
+
+  def friends
+    self.friendships_invitees.where('friendships.status = ? ',true)
+  end
+
+  def is_friend?(user)
+    self.friends.include?(user)
+  end
+        
   def admin?
     self.role == "admin"
   end

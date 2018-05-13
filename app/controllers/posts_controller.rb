@@ -27,7 +27,7 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    if published?
+    if is_published?
       @post.published = true
     else
       @post.published = false
@@ -53,7 +53,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    if published?
+    if is_published?
       @post.published = true
     else
       @post.published = false
@@ -93,7 +93,7 @@ class PostsController < ApplicationController
     params.require(:post).permit(:title, :content, :image, :level, category_ids: [])
   end
 
-  def published?
+  def is_published?
     params[:commit] == 'Submit'
   end
 
