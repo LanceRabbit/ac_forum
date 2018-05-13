@@ -35,50 +35,71 @@ namespace :dev do
       puts "#{Post.count} posts data"
     end
   end
+
+  task fake_categroy: :environment do 
+    PostCategory.destroy_all
+    puts " set the categroy of posts ..."
+    Post.all.each do |post|
+      post.post_categories.create!(category: Category.all.sample)
+    end
+    puts "#{PostCategory.count} PostCategory data"
+  end
+
+  task fake_friend: :environment do 
+    Friendship.destroy_all
+    User.all.each do |user|
+      User.all.sample(2).each do |friend_user|
+        if user != friend_user
+          puts user.id 
+          puts friend_user.id 
+          if !user.is_friend?(friend_user)
+            Friendship.create!(user_id: user.id ,friend_id: friend_user.id, status: true)
+            Friendship.create!(user_id: friend_user.id ,friend_id: user.id, status: true)
+          end
+        end
+      end
+    end
+    puts "now have #{Friendship.count} friendships"
+  end
+
   # reply
   task fake_reply: :environment do
     #Reply.destroy_all
     puts " create fake reply data ..."
-    posts = Post.where("level <= ?", 1)
-    posts.each do |post|
+    Post.all.sample(30).each do |post|
       3.times do |i|
+        user = post.user.friends.sample
         post.replies.create!(
-          content: FFaker::Lorem.sentence,
-          user: User.all.sample
+          comment: FFaker::Lorem.sentence,
+          user: user
         )
       end
     end
     puts " #{Reply.count} replies data"
   end
 
-  task test: :environment do
-    #Reply.destroy_all
-    #  User.where.not(role: "admin").destroy_all
-    puts " create fake reply data ..."
-    posts = Post.where("level <= ?", 1)
-    posts.each do |post|
-      puts post.title
+  task fake_collection: :environment do
+    Collection.destroy_all
+    Post.all.sample(30).each do |post|
       3.times do |i|
-        post.replies.create!(
-          content: FFaker::Lorem.sentence,
-          user: User.all.sample
-        )
+        user = post.user.friends.sample
+        post.collections.create!(user: user)
       end
     end
-    puts " #{Reply.count} replies data"
+    puts "#{Collection.count} Collection data"
   end
-  
 
 
   #fake all data
   task fake_all: :environment do
     # Rake::Task['db:drop'].execute
-    # Rake::Task['db:migrate'].execute
-    # Rake::Task['db:seed'].execute
-    # Rake::Task['dev:fake_restaurant'].execute
-    # Rake::Task['dev:fake_user'].execute
-    # Rake::Task['dev:fake_comment'].execute
-    # Rake::Task['dev:fake_favorite'].execute
-    # Rake::Task['dev:fake_like'].execute
+    Rake::Task['db:migrate'].execute
+    Rake::Task['db:seed'].execute
+    Rake::Task['dev:fake_user'].execute
+    Rake::Task['dev:fake_friend'].execute
+    Rake::Task['dev:fake_post'].execute
+    Rake::Task['dev:fake_categroy'].execute
+    Rake::Task['dev:fake_collection'].execute
+    Rake::Task['dev:fake_reply'].execute
   end
 end
