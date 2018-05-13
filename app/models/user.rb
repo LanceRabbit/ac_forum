@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  before_create :generate_authentication_token
+
   # 發表文章
   has_many :posts, dependent: :destroy
   # 回覆文章
@@ -26,6 +28,9 @@ class User < ApplicationRecord
        'admin': 'admin'
       } 
 
+  def generate_authentication_token
+    self.authentication_token = Devise.friendly_token
+  end
 
   def inviter_friend?(user)
     self.friendships_inviters.include?(user)
