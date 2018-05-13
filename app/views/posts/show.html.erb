@@ -18,10 +18,12 @@
         <%= image_tag "http://via.placeholder.com/380x130", width: "100%", class: "img-responsive center-block img-rounded"  unless @post.image?%> 
         <p><%= simple_format @post.content %></p> 
       </div>
-      <div class="col-sm-2 offset-sm-10">
-        <%= link_to 'U', edit_post_path(@post), :class => "btn btn-primary m-1"  %>
-        <%= link_to 'X', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
-      </div>
+      <% if show_edit("Post", @post) %>
+        <div class="col-sm-2 offset-sm-10">
+          <%= link_to 'U', edit_post_path(@post), :class => "btn btn-primary m-1"  %>
+          <%= link_to 'X', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="row bg-light">
@@ -33,7 +35,7 @@
             <p><%= simple_format reply.comment %></p> 
           </div>
         </div>
-        <% if show_edit(reply) %>
+        <% if show_edit("Reply", reply) %>
           <div class="col-sm-2 offset-sm-10">
             <%= link_to 'U', edit_post_reply_path(@post, reply), :class => "btn btn-primary m-1"  %>
             <%= link_to 'X', post_reply_path(@post, reply), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
