@@ -94,14 +94,14 @@ class PostsController < ApplicationController
   def collect
     @post.collections.create!(user: current_user)
     #@restaurant.count_favorites
-    redirect_back(fallback_location: root_path)  # 導回上一頁
+    # redirect_back(fallback_location: root_path)  # 導回上一頁
   end
 
   def uncollect
     @collection = Collection.where(post: @post, user: current_user)
     @collection.destroy_all
     #@restaurant.count_favorites
-    redirect_back(fallback_location: root_path)
+    # redirect_back(fallback_location: root_path)
   end
 
   private

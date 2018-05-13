@@ -5,9 +5,13 @@
     <table class="table table-hover text-center bg-light">
       <tbody>
         <% @collections.each do |collection| %>
-          <tr data-link="<%= post_path(collection.post) %> ">
+          <tr >
             <td><%= collection.post.title %></td>
-            <td><%= collect_btn(collection.post) %></td>
+            <td>
+              <div class="collect" data-pid= "<%= collection.post.id %>" >
+                <%= collect_btn(collection.post) %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>
