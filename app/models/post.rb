@@ -11,6 +11,11 @@ class Post < ApplicationRecord
   
   has_many :replies
 
+  # 收藏
+  has_many :collections, dependent: :destroy
+  # post 被很多user收藏
+  has_many :collected_users, through: :collections, source: :user
+  
   LEVEL = { 
        '1': 'All',
        '2': 'Friend',
@@ -22,5 +27,10 @@ class Post < ApplicationRecord
 
   scope :published, ->(level) { where("published = ? and level <=  ?",true, level) }  
 
+
+  # 驗證使用者是否已點選過收藏按鈕
+  def is_collected?(user)
+    self.collected_users.include?(user)
+  end
 
 end

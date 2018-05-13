@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   # 前台
   resources :posts do
     resources :replies, only: [:create, :update, :destroy, :edit]
+    # 收藏
+    post :collect, :on => :member
+    post :uncollect, :on => :member
   end
 
   resources :users, only: [:show, :update, :edit]

@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row border-bottom bg-light pt-2">
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <h3 class="m-2">
         <strong><%= @post.title %></strong>
       </h3>
     </div>
-    <div class="col-sm-2 offset-sm-1">
+    <div class="col-sm-3 offset-sm-1">
       <a href="#reply" class="btn btn-md btn-primary m-1 pull-right">Reply</a>
-        <%= link_to 'Edit', edit_post_path(@post),class: "btn btn-primary btn-xs m-1" %>
+      <%= collect_btn(@post) %>
     </div>
   </div>
   <div class="row">
@@ -33,10 +33,12 @@
             <p><%= simple_format reply.comment %></p> 
           </div>
         </div>
-        <div class="col-sm-2 offset-sm-10">
-          <%= link_to 'U', edit_post_reply_path(@post, reply), :class => "btn btn-primary m-1"  %>
-          <%= link_to 'X', post_reply_path(@post, reply), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
-        </div>
+        <% if show_edit(reply) %>
+          <div class="col-sm-2 offset-sm-10">
+            <%= link_to 'U', edit_post_reply_path(@post, reply), :class => "btn btn-primary m-1"  %>
+            <%= link_to 'X', post_reply_path(@post, reply), method: :delete, data: { confirm: "Are you sure?"}, :class => "btn btn-danger m-1" %>
+          </div>
+        <% end %>
       </div>
     <% end %>
     <div class="mx-auto mt-3">

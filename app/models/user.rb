@@ -8,7 +8,14 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   # 回覆文章
   has_many :replies, dependent: :destroy
-  
+
+  # 收藏
+  has_many :collections, dependent: :destroy
+  # user 收藏很多文章
+  # 避免與其他命名混肴,collected_posts
+  # 需另加 source 告知 Model name(指定 Model name，慣例使用單數)
+  has_many :collected_posts, through: :collections, source: :post
+
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   #透過Friendship的foreign_key取得追隨者的資料

@@ -2,6 +2,8 @@
   <div class="m-3">
     <%= image_tag user.avatar, width: "100%", class: "img-responsive center-block" if user.avatar?%>
     <%= image_tag "http://via.placeholder.com/150x130", width: "100%", class: "img-responsive center-block img-rounded"  unless user.avatar?%> 
-    <p><%= user.name %></p> 
+    <%= link_to user_path(user), class: "nav-link" do %>
+      <p><%= user.name %></p> 
+    <% end %>
   </div>
 </div>

@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   # except 排除首頁檢核使用者登入
   before_action :authenticate_user!, except: :index
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :collect, :uncollect]
 
   def index
     @categories = Category.all
@@ -74,6 +74,18 @@ class PostsController < ApplicationController
     flash[:notice] =  (@post.published ? 'Post' : 'Draft') + " was successfully destroied"
   end
 
+  def collect
+    @post.collections.create!(user: current_user)
+    #@restaurant.count_favorites
+    redirect_back(fallback_location: root_path)  # 導回上一頁
+  end
+
+  def uncollect
+    @collection = Collection.where(post: @post, user: current_user)
+    @collection.destroy_all
+    #@restaurant.count_favorites
+    redirect_back(fallback_location: root_path)
+  end
 
   private
 
