@@ -13,11 +13,12 @@ FactoryBot.define do
   factory :post do
     #sequence(:name) { |n| "post#{n}" }
     title { FFaker::Book::title }
-    content { FFaker::PhoneNumber.short_phone_number }
-    description { FFaker::Lorem.paragraph }
+    content { FFaker::Lorem.paragraph }
     published { [true, false].sample }
     level { 1 }
-    category
+    # 綁定user
+    user
+    #categories
   end
 
   factory :reply do

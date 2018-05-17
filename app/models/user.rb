@@ -6,6 +6,11 @@ class User < ApplicationRecord
 
   before_create :generate_authentication_token
 
+  # 並參考 Devise 文件自訂表單後通過 Strong Parameters 的方法
+  validates_presence_of :name
+  # 加上驗證 name 不能重覆 (關鍵字提示: uniqueness)
+  validates :name, uniqueness: true
+  
   # 發表文章
   has_many :posts, dependent: :destroy
   # 回覆文章
@@ -59,4 +64,13 @@ class User < ApplicationRecord
   def admin?
     self.role == "admin"
   end
+
+  # for Rpsec
+  def self.get_user_count
+    User.all.size
+  end
+  def get_post_count
+    posts.all.size
+  end
+
 end
