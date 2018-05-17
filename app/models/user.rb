@@ -2,7 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:facebook]
 
   before_create :generate_authentication_token
 
@@ -27,6 +28,29 @@ class User < ApplicationRecord
        'normal': 'normal',
        'admin': 'admin'
       } 
+  # for  API login    
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] &&  session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
+      end
+    end
+  end
+  
+  # for API login    
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|      
+      user.provider = auth.provider
+      user.uid      = auth.uid
+      user.token    = auth.credentials.token
+      user.email    = auth.info.email
+      user.name     = auth.info.name
+      user.authentication_token = Devise.friendly_token
+      user.password = Devise.friendly_token[0,20]
+      user.avatar   = auth.info.image
+      # user.skip_confirmation!  # 如果 devise 有使用 confirmable，記得 skip！
+    end
+  end
 
   def generate_authentication_token
     self.authentication_token = Devise.friendly_token

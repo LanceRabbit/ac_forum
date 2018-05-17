@@ -47,6 +47,8 @@ gem 'carrierwave'
 gem 'ffaker'
 # 分類查詢
 gem 'ransack'
+# fb login
+gem 'omniauth-facebook'
 
 group :production do
   gem 'pg'
