@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
     expect(User.get_user_count).to eq(1)
   end
 
-  it "should count all replies by this user" do
+  it "should count all posts by this user" do
     user = create(:user)
     expect(user.get_post_count).to eq(0)
     post = create(:post)
