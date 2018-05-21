@@ -269,6 +269,15 @@ Devise.setup do |config|
     secure_image_url: true,
     image_size:  'large',
     callback_url: "http://localhost:3000/users/auth/facebook/callback"
+  elsif Rails.env.production?
+    fb_config = Rails.application.config_for(:facebook)
+    config.omniauth :facebook,
+    fb_config["app_id"],
+    fb_config["secret"],
+    scope: "public_profile,email",
+    info_fields: "email,name",
+    secure_image_url: true,
+    image_size:  'large'
   end
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
